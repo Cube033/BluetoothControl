@@ -71,10 +71,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        print("point 6")
+        //print("point 6")
         if characteristic.uuid == CBUUID(string: "FFE1") {
             let data = characteristic.value!
-            print(data)
+            //print(data)
             let message = String(data: data, encoding: .utf8)
             //print("Received message: \(message ?? "no data")")
             if let intValue = Int(message ?? "") {
@@ -99,6 +99,24 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         if let peripheralExist = peripheral {
             peripheralExist.writeValue(data, for: characteristicExist, type: .withoutResponse)
             print("peripheral+")
+        } else {
+            print("peripheral Не существует")
+        }
+        
+    }
+    
+    func sendCode(_ codeMessage: Int) {
+        var number: Int = codeMessage
+        //let data = withUnsafeBytes(of: number) { Data($0) }
+        let data = Data(bytes: &number,
+                        count: MemoryLayout.size(ofValue: number))
+        guard let characteristicExist = characteristic else {
+            print("no characteristic")
+            return
+        }
+        if let peripheralExist = peripheral {
+            peripheralExist.writeValue(data, for: characteristicExist, type: .withoutResponse)
+            print("codeMessage \(codeMessage)  \(number)   \(data)")
         } else {
             print("peripheral Не существует")
         }

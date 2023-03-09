@@ -17,7 +17,8 @@ class ViewController: UIViewController, BluetoothHandler {
     
     // MARK: - Variables
     
-    var bluetoothManager = BluetoothManager()
+    var bluetoothManager: BluetoothManager?
+    
     let buttonSideSize: CGFloat = 70
     
     var textLabel = {
@@ -79,7 +80,7 @@ class ViewController: UIViewController, BluetoothHandler {
         view.backgroundColor = .white
         cruiseControlButton.setTitle("Cruise control", for: .normal)
         bluetoothManager = BluetoothManager()
-        bluetoothManager.delegate = self
+        bluetoothManager?.delegate = self
         addElements()
         setConstraints()
     }
@@ -90,40 +91,40 @@ class ViewController: UIViewController, BluetoothHandler {
     }
     
     func sendGoForward() {
-        bluetoothManager.sendMessage("forward")
+        bluetoothManager?.sendCode(1)//"forward"
     }
     
     func sendGoBack() {
-        bluetoothManager.sendMessage("back")
+        bluetoothManager?.sendCode(2)//"back"
     }
     
     func sendGoLeftForward() {
-        bluetoothManager.sendMessage("leftForward")
+        bluetoothManager?.sendCode(3)//"leftForward"
     }
     
     func sendGoRightForward() {
-        bluetoothManager.sendMessage("rightForward")
+        bluetoothManager?.sendCode(4)//"rightForward"
     }
     
     func sendGoLeftBack() {
-        bluetoothManager.sendMessage("leftBack")
+        bluetoothManager?.sendCode(5)//"leftBack"
     }
     
     func sendGoRightBack() {
-        bluetoothManager.sendMessage("rightBack")
+        bluetoothManager?.sendCode(6)//"rightBack"
     }
     
     func cruiseControlToggle() {
-        bluetoothManager.sendMessage("cruiseControl")
+        bluetoothManager?.sendCode(7)//"cruiseControl"
         cruiseControlButton.buttonState.toggle()
-        textLabel.isHidden = ccGoBackButton.buttonState || cruiseControlButton.buttonState
+       // textLabel.isHidden = ccGoBackButton.buttonState || cruiseControlButton.buttonState
         cruiseControlButton.backgroundColor = getColorByState(state: cruiseControlButton.buttonState)
     }
     
     func ccGoBackToggle() {
-        bluetoothManager.sendMessage("ccGoBack")
+        bluetoothManager?.sendCode(8)//"ccGoBack"
         ccGoBackButton.buttonState.toggle()
-        textLabel.isHidden = ccGoBackButton.buttonState || cruiseControlButton.buttonState
+       // textLabel.isHidden = ccGoBackButton.buttonState || cruiseControlButton.buttonState
         ccGoBackButton.backgroundColor = getColorByState(state: ccGoBackButton.buttonState)
     }
     
